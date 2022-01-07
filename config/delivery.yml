@@ -38,7 +38,7 @@ spec:
       - env:
         - name: JAVA_TOOL_OPTIONS
           value: -Dmanagement.endpoint.health.show-details="always" -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include="*" -Dmanagement.server.port="8080" -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
-        image: harbor-repo.vmware.com/tapsme/supply-chain/mae-app-mae@sha256:35c9da9d00105be310fa91f56c423c9c1a5cebf72993b55905efdd33c10a2d55
+        image: harbor-repo.vmware.com/tapsme/supply-chain/mae-app-mae@sha256:3eb0415c3e0afcb5a3bde8b4ea46bc318702a07e8f7b75ee5e39efd08f40372a
         name: workload
         ports:
         - containerPort: 8080
