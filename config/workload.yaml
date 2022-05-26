@@ -12,14 +12,8 @@ spec:
   - name: annotations
     value:
       autoscaling.knative.dev/minScale: "1"
-  - name: gitops_ssh_secret
-    value: gitops-ssh
-  - name: gitops_repository
-    value: ssh://git@github.com/Mpluya/config-repo-tanzu-java-web-app.git
-  - name: gitops_branch
-    value: main
   source:
     git:
-      url: ssh://git@github.com/Mpluya/tanzu-java-web-app.git
+      url: https://github.com/Mpluya/tanzu-java-web-app.git
       ref:
         branch: main
