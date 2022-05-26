@@ -12,6 +12,10 @@ spec:
   - name: annotations
     value:
       autoscaling.knative.dev/minScale: "1"
+  - name: annotations
+    value:
+      serving.knative.dev/rollout-duration: "380s"
+    
   source:
     git:
       url: https://github.com/Mpluya/tanzu-java-web-app.git
