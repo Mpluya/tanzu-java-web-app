@@ -1,0 +1,13 @@
+apiVersion: serving.knative.dev/v1
+kind: Route
+metadata:
+  finalizers:
+  - routes.serving.knative.dev
+  name: tanzu-java-web-app-validate
+  namespace: default
+spec:
+  traffic:
+  - revisionName: tanzu-java-web-app-00002
+    percent: 50
+  - configurationName: tanzu-java-web-app
+    percent: 50
