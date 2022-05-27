@@ -11,8 +11,9 @@ spec:
   params:
   - name: annotations
     value:
-      autoscaling.knative.dev/minScale: "1"
       serving.knative.dev/rollout-duration: 380s
+      autoscaling.knative.dev/minScale: "1"
+      
   - name: gitops_ssh_secret
     value: gitops-ssh
   - name: gitops_repository
