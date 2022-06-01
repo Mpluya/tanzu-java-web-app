@@ -1,0 +1,74 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: run
+    app.kubernetes.io/part-of: tanzu-java-web-app
+    apps.tanzu.vmware.com/has-tests: "true"
+    apps.tanzu.vmware.com/workload-type: web
+    carto.run/workload-name: tanzu-java-web-app
+    kapp.k14s.io/app: "1653656528789916932"
+    kapp.k14s.io/association: v1.16206bbaa0b43864d82907677c3942fa
+  name: tanzu-java-web-app
+  namespace: default
+  resourceVersion: "45526828"
+  uid: 2ac43c75-ce50-4ff6-9510-3bed58e90ae6
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+        boot.spring.io/actuator: http://:8081/actuator
+        boot.spring.io/version: 2.5.13
+        conventions.apps.tanzu.vmware.com/applied-conventions: |-
+          spring-boot-convention/spring-boot
+          spring-boot-convention/spring-boot-graceful-shutdown
+          spring-boot-convention/spring-boot-web
+          spring-boot-convention/spring-boot-actuator
+          appliveview-sample/app-live-view-connector
+          appliveview-sample/app-live-view-appflavours
+          appliveview-sample/app-live-view-systemproperties
+        developer.conventions/target-containers: workload
+        serving.knative.dev/rollout-duration: 380s
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/component: run
+        app.kubernetes.io/part-of: tanzu-java-web-app
+        apps.tanzu.vmware.com/has-tests: "true"
+        apps.tanzu.vmware.com/workload-type: web
+        carto.run/workload-name: tanzu-java-web-app
+        conventions.apps.tanzu.vmware.com/framework: spring-boot
+        tanzu.app.live.view: "true"
+        tanzu.app.live.view.application.actuator.port: "8081"
+        tanzu.app.live.view.application.flavours: spring-boot
+        tanzu.app.live.view.application.name: demo
+    spec:
+      containerConcurrency: 0
+      containers:
+      - env:
+        - name: JAVA_TOOL_OPTIONS
+          value: -Dmanagement.endpoint.health.probes.add-additional-paths="true" -Dmanagement.endpoint.health.show-details=always
+            -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include=*
+            -Dmanagement.health.probes.enabled="true" -Dmanagement.server.port="8081"
+            -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
+        image: index.docker.io/tapsme/tanzu-java-web-app-default@sha256:7d249a8cb74bed512ffb069d5d3d6f1e6f6e5e3b0a3929bf86988070ba37dac3
+        name: workload
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          successThreshold: 1
+          tcpSocket:
+            port: 0
+        resources: {}
+        securityContext:
+          runAsUser: 1000
+      serviceAccountName: default
+      timeoutSeconds: 300
+  traffic:
+  - latestRevision: true
+    percent: 50
+    tag: staging
+  - latestRevision: false
+    percent: 50
+    revisionName: tanzu-java-web-app-00002
