@@ -1,0 +1,10 @@
+{
+  "command": [
+    "curl",
+    "http://staging-tanzu-java-web-app.default.full.tapsme.org",
+    "-H",
+    "'Accept: application/json'"
+  ],
+  "expected_status": "200",
+  "expected_body": "GREEN Tanzu"
+}
