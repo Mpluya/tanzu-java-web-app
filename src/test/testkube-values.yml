@@ -1,0 +1,150 @@
+affinity: {}
+api-server:
+  fullnameOverride: testkube-api-server
+  image:
+    pullPolicy: Always
+    repository: kubeshop/testkube-api-server
+  ingress:
+    annotations:
+      acme.cert-manager.io/http01-edit-in-place: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/ingress.class: contour
+      kubernetes.io/ingress.global-static-ip-name: testkube-demo
+      nginx.ingress.kubernetes.io/cors-allow-credentials: "false"
+      nginx.ingress.kubernetes.io/cors-allow-methods: GET
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    enabled: "true"
+    hosts:
+    - testkube.full.tapsme.org
+    path: /results/(v\d/executions.*)
+    tls:
+    - hosts:
+      - testkube.full.tapsme.org
+      secretName: testkube-demo-cert-secret
+    tlsenabled: "true"
+  mongoDSN: mongodb://testkube-mongodb:27017
+  nameOverride: api-server
+  postmanExecutorURI: http://testkube-postman-executor:8082
+  service:
+    port: 8088
+    type: NodePort
+autoscaling:
+  enabled: false
+  maxReplicas: 100
+  minReplicas: 1
+  targetCPUUtilizationPercentage: 80
+curl-executor:
+  apiServerURI: http://testkube-api-server:8080
+  enabled: true
+  fullnameOverride: testkube-curl-executor
+  image:
+    pullPolicy: Always
+    repository: kubeshop/testkube-curl-executor
+  mongoDSN: mongodb://testkube-mongodb:27017
+  nameOverride: curl-executor
+  service:
+    port: 8086
+    type: NodePort
+cypress-executor:
+  apiServerURI: http://testkube-api-server:8088
+  enabled: true
+  fullnameOverride: testkube-cypress-executor
+  image:
+    pullPolicy: Always
+    repository: kubeshop/testkube-cypress-executor
+  mongoDSN: mongodb://testkube-mongodb:27017
+  nameOverride: cypress-executor
+  service:
+    port: 8084
+    type: NodePort
+fullnameOverride: testkube
+image:
+  pullPolicy: Never
+  repository: ""
+  tag: ""
+imagePullSecrets: []
+ingress:
+  annotations: {}
+  className: ""
+  enabled: "false"
+  hosts:
+  - host: chart-example.local
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
+  tls: []
+mongodb:
+  architecture: standalone
+  auth:
+    enabled: false
+  fullnameOverride: testkube-mongodb
+  nameOverride: mongodb
+  service:
+    clusterIP: ""
+    nodePort: true
+    port: "27017"
+    portNmae: mongodb
+nameOverride: testkube
+nodeSelector: {}
+podAnnotations: {}
+podSecurityContext: {}
+postman-executor:
+  apiServerURI: http://testkube-api-server:8088
+  enabled: true
+  fullnameOverride: testkube-postman-executor
+  image:
+    pullPolicy: Always
+    repository: kubeshop/testkube-postman-executor
+  mongoDSN: mongodb://testkube-mongodb:27017
+  nameOverride: postman-executor
+  service:
+    port: 8082
+    type: NodePort
+prometheus:
+  enabled: false
+replicaCount: 1
+resources: {}
+securityContext: {}
+service:
+  port: 80
+  type: ClusterIP
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+testkube-dashboard:
+  enabled: true
+  fullnameOverride: testkube-dashboard
+  image:
+    pullPolicy: Always
+    repository: kubeshop/testkube-dashboard
+    tag: 1.1.12
+  ingress:
+    annotations:
+      acme.cert-manager.io/http01-edit-in-place: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/ingress.class: contour
+      kubernetes.io/ingress.global-static-ip-name: testkube-demo
+      nginx.ingress.kubernetes.io/cors-allow-credentials: "false"
+      nginx.ingress.kubernetes.io/cors-allow-methods: GET
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    apiServerEndpoint: default
+    enabled: "true"
+    hosts:
+    - testkube.full.tapsme.org
+    path: /
+    tls:
+    - hosts:
+      - testkube.full.tapsme.org
+      secretName: testkube-demo-cert-secret
+    tlsenabled: "true"
+  nameOverride: dashboard
+  service:
+    port: 80
+    type: NodePort
+tolerations: []
